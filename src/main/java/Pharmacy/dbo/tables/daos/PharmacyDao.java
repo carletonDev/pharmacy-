@@ -6,7 +6,6 @@ package Pharmacy.dbo.tables.daos;
 
 import Pharmacy.dbo.tables.Pharmacy;
 import Pharmacy.dbo.tables.records.PharmacyRecord;
-
 import java.util.List;
 
 import javax.annotation.processing.Generated;
@@ -29,7 +28,7 @@ import org.springframework.stereotype.Repository;
 )
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 @Repository
-public class PharmacyDao extends DAOImpl<PharmacyRecord, Pharmacy.dbo.tables.pojos.Pharmacy, Object> {
+public class PharmacyDao extends DAOImpl<PharmacyRecord,Pharmacy.dbo.tables.pojos.Pharmacy, Object> {
 
     /**
      * Create a new PharmacyDao without any configuration
