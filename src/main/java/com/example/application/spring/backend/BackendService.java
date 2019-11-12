@@ -1,15 +1,27 @@
 package com.example.application.spring.backend;
 
-import java.util.ArrayList;
-import java.util.List;
+import PharmacyDataAccess.tables.daos.UsersDao;
+import PharmacyDataAccess.tables.pojos.Users;
+import PharmacyDataAccess.tables.records.UsersRecord;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+import org.jooq.*;
+import org.jooq.impl.DSL;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
+
+import javax.sql.DataSource;
+import java.sql.DriverManager;
+import java.util.*;
 
 @Service
 public class BackendService {
 
-    private List<Employee> employees;
+    private org.jooq.Configuration configuration;
+    //TODO figure out how to access through application properties file maybe with Enviroment variable
 
-    {
+    private List<Employee> employees;{
     // Init dummy data
 
         employees = new ArrayList<>();
@@ -40,5 +52,17 @@ public class BackendService {
     public List<Employee> getEmployees() {
         return employees;
     }
+
+
+    public Configuration GetConfiguration(){
+        HikariConfig config = new HikariConfig();
+        config.setJdbcUrl("jdbc:sqlserver://carletonserver.database.windows.net:1433;database=Pharmacy;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;");
+        config.setUsername("carl@carletonserver");
+        config.setPassword("5611S@ddle");
+        config.setAutoCommit(true);
+        return configuration.set(new HikariDataSource(config));
+
+    }
+
 
 }
