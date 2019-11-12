@@ -9,6 +9,8 @@ import com.example.application.spring.backend.BackendService;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.router.AfterNavigationEvent;
+import com.vaadin.flow.router.AfterNavigationObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import lombok.extern.java.Log;
@@ -16,44 +18,37 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
-
-@Route(value = "user", layout = MainView.class)
+//grids need the on intialization method need lazy loading to work!!
+@Route
 @PageTitle("Users")
 @CssImport("styles/views/masterdetail/master-detail-view.css")
 @Log
-public class List extends VerticalLayout {
+public class List extends VerticalLayout implements AfterNavigationObserver {
 
    @Autowired
    private BackendService service;
-
-    private UsersDao dao;
-
     private Grid<Users> userList;
     public List(){
         //create the layout
-        VerticalLayout layout = Layout();
-        //configure the dao object
-        dao = new UsersDao(service.GetConfiguration());
+        VerticalLayout layout = new VerticalLayout();
         //create a new grid
-        userList = new Grid<>();
-        //use find all method to populate list
-        userList.setItems(dao.findAll());
-        //log data testing
-        log.info(dao.findAll().toString());
+        userList = new Grid<>(Users.class);
+        //set size to full
+        layout.setHeightFull();
         //remove role id and user id from table
-        userList.removeColumnByKey("userId");
-        userList.removeColumnByKey("roleId");
-        //set columns to non id columns
-        userList.setColumns("city","firstName","lastName","userAddress","state","zip");
-        //set the layout size to full
-        layout.setSizeFull();
+        userList.removeColumnByKey("userid");
+        userList.removeColumnByKey("roleid");
         //add to the vertical layout
         add(userList);
     }
-    //method that instantiates a vertical layout
-    public VerticalLayout Layout(){
-        VerticalLayout layout = new VerticalLayout();
-        return layout;
+    @Override
+    public void afterNavigation(AfterNavigationEvent event) {
+
+        // Lazy init of the grid items, happens only when we are sure the view will be
+        // shown to the user
+        UsersDao dao = new UsersDao(service.GetConfiguration());
+        userList.setItems(dao.findAll());
+        log.info(dao.findAll().toString());
     }
 
 }

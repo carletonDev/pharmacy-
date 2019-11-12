@@ -1,24 +1,18 @@
 package com.example.application.spring.backend;
 
-import PharmacyDataAccess.tables.daos.UsersDao;
-import PharmacyDataAccess.tables.pojos.Users;
-import PharmacyDataAccess.tables.records.UsersRecord;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import org.jooq.*;
-import org.jooq.impl.DSL;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
+import org.jooq.Configuration;
+import org.jooq.SQLDialect;
+import org.jooq.impl.DefaultConfiguration;
 import org.springframework.stereotype.Service;
 
-import javax.sql.DataSource;
-import java.sql.DriverManager;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class BackendService {
 
-    private org.jooq.Configuration configuration;
     //TODO figure out how to access through application properties file maybe with Enviroment variable
 
     private List<Employee> employees;{
@@ -60,7 +54,7 @@ public class BackendService {
         config.setUsername("carl@carletonserver");
         config.setPassword("5611S@ddle");
         config.setAutoCommit(true);
-        return configuration.set(new HikariDataSource(config));
+        return new DefaultConfiguration().set(new HikariDataSource(config)).set(SQLDialect.DEFAULT);
 
     }
 

@@ -32,13 +32,12 @@ import javax.management.Notification;
 public class Register extends Div {
 
 
-    //create DAO object for CRUD
-    private UsersDao dao;
     //Autowire the Backend Service
     @Autowired
     BackendService service;
     //create an interface user object
-    IUsers user;
+
+    public IUsers user = new Users();
     //create text fields and buttons for forms
     private TextField firstname = new TextField();
     private TextField lastname = new TextField();
@@ -69,7 +68,7 @@ public class Register extends Div {
            SetUsers(user);
            Users users = new Users(user);
            //add connection and insert
-           dao = new UsersDao(service.GetConfiguration());
+           UsersDao dao = new UsersDao(service.GetConfiguration());
            dao.insert(users);
        });
         cancel.addClickListener(e->{
