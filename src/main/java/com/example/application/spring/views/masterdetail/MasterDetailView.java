@@ -87,13 +87,31 @@ public class MasterDetailView extends Div implements AfterNavigationObserver {
 
     public void Save() {
         Employee employee = Map(firstname,lastname,email,title);
-        service.InsertEmployee(employee);
+        //data validation
+        dataValidation(employee);
+        CheckInsert(employee);
+    }
+
+    public void CheckInsert(Employee employee) {
         List<Employee> checkInsert = new EmployeeDao(service.GetConfiguration()).findAll();
-        if(checkInsert.contains(employee)) {
+        //check if user was added by looking at first and last name against the database list
+        //java doesnt use two equals signs goes wonky you need .equals on lambdas
+        if(checkInsert.stream().anyMatch(e-> e.getFirstname().equals(employee.getFirstname())
+                && e.getLastname().equals(employee.getLastname())))
+        {
             Notification.show("User Added!");
         }
         else{
             Notification.show("User Not Added");
+        }
+    }
+
+    public void dataValidation(Employee employee) {
+        if(employee.getFirstname().isEmpty() || employee.getLastname().isEmpty()){
+            Notification.show("Please Enter first and last name of employee");
+        }
+        else{
+            service.InsertEmployee(employee);
         }
     }
 
