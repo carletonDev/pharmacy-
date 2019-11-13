@@ -1,5 +1,6 @@
 package com.example.application.spring.views.masterdetail;
 
+import PharmacyDataAccess.tables.daos.EmployeeDao;
 import PharmacyDataAccess.tables.pojos.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -25,6 +26,8 @@ import com.vaadin.flow.router.Route;
 
 import com.example.application.spring.MainView;
 
+import java.util.List;
+
 @Route(value = "masterdetail", layout = MainView.class)
 @PageTitle("MasterDetail")
 @CssImport("styles/views/masterdetail/master-detail-view.css")
@@ -38,7 +41,7 @@ public class MasterDetailView extends Div implements AfterNavigationObserver {
     private TextField firstname = new TextField();
     private TextField lastname = new TextField();
     private TextField email = new TextField();
-    private PasswordField password = new PasswordField();
+    private TextField title = new TextField();
 
     private Button cancel = new Button("Cancel");
     private Button save = new Button("Save");
@@ -70,7 +73,7 @@ public class MasterDetailView extends Div implements AfterNavigationObserver {
         cancel.addClickListener(e -> employees.asSingleSelect().clear());
 
         save.addClickListener(e -> {
-            Notification.show("Not implemented");
+            Save();
         });
 
         SplitLayout splitLayout = new SplitLayout();
@@ -82,6 +85,23 @@ public class MasterDetailView extends Div implements AfterNavigationObserver {
         add(splitLayout);
     }
 
+    public void Save() {
+        Employee employee = Map(firstname,lastname,email,title);
+        service.InsertEmployee(employee);
+        List<Employee> checkInsert = new EmployeeDao(service.GetConfiguration()).findAll();
+        if(checkInsert.contains(employee)) {
+            Notification.show("User Added!");
+        }
+        else{
+            Notification.show("User Not Added");
+        }
+    }
+
+    private Employee Map(TextField firstname, TextField lastname, TextField email, TextField title) {
+
+        return new Employee(firstname.getValue(),lastname.getValue(),email.getValue(),title.getValue());
+    }
+
     private void createEditorLayout(SplitLayout splitLayout) {
         Div editorDiv = new Div();
         editorDiv.setId("editor-layout");
@@ -89,7 +109,7 @@ public class MasterDetailView extends Div implements AfterNavigationObserver {
         addFormItem(editorDiv, formLayout, firstname, "First name");
         addFormItem(editorDiv, formLayout, lastname, "Last name");
         addFormItem(editorDiv, formLayout, email, "Email");
-        addFormItem(editorDiv, formLayout, password, "Password");
+        addFormItem(editorDiv, formLayout, title, "Title");
         createButtonLayout(editorDiv);
         splitLayout.addToSecondary(editorDiv);
     }
@@ -133,6 +153,6 @@ public class MasterDetailView extends Div implements AfterNavigationObserver {
         binder.readBean(value);
 
         // The password field isn't bound through the binder, so handle that
-        password.setValue("");
+        title.setValue("");
     }
 }

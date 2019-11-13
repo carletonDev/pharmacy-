@@ -67,7 +67,17 @@ public class BackendService {
     public List<Employee> getEmployees() {
         return new EmployeeDao(GetConfiguration()).findAll();
     }
-
+    public void InsertEmployee(Employee employees){
+                    DSL().insertInto(PharmacyDataAccess.tables.Employee.EMPLOYEE,
+                    PharmacyDataAccess.tables.Employee.EMPLOYEE.FIRSTNAME,
+                    PharmacyDataAccess.tables.Employee.EMPLOYEE.LASTNAME,
+                    PharmacyDataAccess.tables.Employee.EMPLOYEE.EMAIL,
+                    PharmacyDataAccess.tables.Employee.EMPLOYEE.TITLE)
+                    .values(employees.getFirstname(),
+                            employees.getLastname(),
+                            employees.getEmail(),
+                            employees.getTitle()).execute();
+    }
     //my actual backend methods not auto gen from Vaadin
     public Configuration GetConfiguration(){
         HikariConfig config = new HikariConfig();
