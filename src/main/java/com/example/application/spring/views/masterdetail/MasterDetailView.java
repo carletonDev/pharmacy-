@@ -1,9 +1,9 @@
 package com.example.application.spring.views.masterdetail;
 
+import PharmacyDataAccess.tables.pojos.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.example.application.spring.backend.BackendService;
-import com.example.application.spring.backend.Employee;
 import com.vaadin.flow.component.AbstractField;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;

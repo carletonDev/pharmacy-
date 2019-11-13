@@ -4,6 +4,7 @@
 package PharmacyDataAccess;
 
 
+import PharmacyDataAccess.tables.Employee;
 import PharmacyDataAccess.tables.Medicine;
 import PharmacyDataAccess.tables.Pharmacy;
 import PharmacyDataAccess.tables.Pharmacymedicine;
@@ -11,6 +12,7 @@ import PharmacyDataAccess.tables.Roles;
 import PharmacyDataAccess.tables.Salary;
 import PharmacyDataAccess.tables.Transactions;
 import PharmacyDataAccess.tables.Users;
+import PharmacyDataAccess.tables.records.EmployeeRecord;
 import PharmacyDataAccess.tables.records.MedicineRecord;
 import PharmacyDataAccess.tables.records.PharmacyRecord;
 import PharmacyDataAccess.tables.records.PharmacymedicineRecord;
@@ -48,6 +50,7 @@ public class Keys {
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
+    public static final UniqueKey<EmployeeRecord> PK_EMPLOYEE = UniqueKeys0.PK_EMPLOYEE;
     public static final UniqueKey<MedicineRecord> PK_MEDICINE = UniqueKeys0.PK_MEDICINE;
     public static final UniqueKey<PharmacyRecord> PK_PHARMACY = UniqueKeys0.PK_PHARMACY;
     public static final UniqueKey<PharmacymedicineRecord> PK_PHARMACYMEDICINE = UniqueKeys0.PK_PHARMACYMEDICINE;
@@ -66,6 +69,7 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     private static class UniqueKeys0 {
+        public static final UniqueKey<EmployeeRecord> PK_EMPLOYEE = Internal.createUniqueKey(Employee.EMPLOYEE, "PK_Employee", Employee.EMPLOYEE.EMPLOYEEID);
         public static final UniqueKey<MedicineRecord> PK_MEDICINE = Internal.createUniqueKey(Medicine.MEDICINE, "PK_Medicine", Medicine.MEDICINE.MEDICINEID);
         public static final UniqueKey<PharmacyRecord> PK_PHARMACY = Internal.createUniqueKey(Pharmacy.PHARMACY, "PK_Pharmacy", Pharmacy.PHARMACY.PHARMACYID);
         public static final UniqueKey<PharmacymedicineRecord> PK_PHARMACYMEDICINE = Internal.createUniqueKey(Pharmacymedicine.PHARMACYMEDICINE, "PK_PharmacyMedicine", Pharmacymedicine.PHARMACYMEDICINE.PMID);

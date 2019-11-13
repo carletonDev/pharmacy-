@@ -1,10 +1,13 @@
 package com.example.application.spring.views.Users;
 
+
 import PharmacyDataAccess.tables.daos.UsersDao;
 import PharmacyDataAccess.tables.interfaces.IUsers;
 import PharmacyDataAccess.tables.pojos.Users;
+import com.example.application.spring.MainView;
 import com.example.application.spring.backend.BackendService;
-import com.example.application.spring.backend.Employee;
+import com.example.application.spring.backend.FormCreatorService;
+import com.example.application.spring.backend.UserMapper.Mapper;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -15,7 +18,6 @@ import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.splitlayout.SplitLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
@@ -23,9 +25,7 @@ import com.vaadin.flow.router.Route;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.management.Notification;
-
-@Route
+@Route(layout = MainView.class)
 @PageTitle("AddUser")
 @CssImport("styles/views/masterdetail/master-detail-view.css")
 @Log
@@ -34,10 +34,12 @@ public class Register extends Div {
 
     //Autowire the Backend Service
     @Autowired
-    BackendService service;
-    //create an interface user object
+    FormCreatorService service;
+    @Autowired
+    Mapper mapp;
+    @Autowired
+    BackendService dataAccess;
 
-    public IUsers user = new Users();
     //create text fields and buttons for forms
     private TextField firstname = new TextField();
     private TextField lastname = new TextField();
@@ -63,20 +65,32 @@ public class Register extends Div {
         // Bind fields. This where you'd define e.g. validation rules
         binder.bindInstanceFields(this);
         //create button event click methods
-       save.addClickListener(e->{
-           //instantiate a new User injecting the interface properties into the users object
-           SetUsers(user);
-           Users users = new Users(user);
-           //add connection and insert
-           UsersDao dao = new UsersDao(service.GetConfiguration());
-           dao.insert(users);
-       });
+        save.addClickListener(e->{
+            //instantiate a new User injecting the interface properties into the users object
+            Users user = new Users();
+            SetUsers(user);
+            //add connection and insert
+            CreateNewUser(user);
+        });
         cancel.addClickListener(e->{
             //clear form
             binder.readBean(null);
         });
 
         add(wrapper);
+
+    }
+    private void CreateNewUser(Users users) {
+        dataAccess.DSL().insertInto(PharmacyDataAccess.tables.Users.USERS,
+                PharmacyDataAccess.tables.Users.USERS.CITY,
+                PharmacyDataAccess.tables.Users.USERS.FIRSTNAME,
+                PharmacyDataAccess.tables.Users.USERS.LASTNAME,
+                PharmacyDataAccess.tables.Users.USERS.STATE,
+                PharmacyDataAccess.tables.Users.USERS.USERADDRESS)
+                .values(users.getCity(),users.getFirstname(),users.getLastname(),users.getState(),users.getUseraddress())
+                //make sure to execute just like execute non query
+                .execute();
+
 
     }
     //methods Named for what they do in constructor
@@ -124,5 +138,4 @@ public class Register extends Div {
         field.getElement().getClassList().add("full-width");
         return formItem;
     }
-
 }

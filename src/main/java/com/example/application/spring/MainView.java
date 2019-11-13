@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.application.spring.views.Users.Register;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasComponents;
 import com.vaadin.flow.component.dependency.JsModule;
@@ -46,6 +47,8 @@ public class MainView extends AppLayout {
         final List<Tab> tabs = new ArrayList<>();
         tabs.add(createTab("Dashboard", DashboardView.class));
         tabs.add(createTab("MasterDetail", MasterDetailView.class));
+        tabs.add(createTab("New User", Register.class));
+        tabs.add(createTab("UserList", com.example.application.spring.views.Users.List.class));
         return tabs.toArray(new Tab[tabs.size()]);
     }
 

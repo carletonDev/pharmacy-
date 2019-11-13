@@ -4,6 +4,7 @@
 package PharmacyDataAccess;
 
 
+import PharmacyDataAccess.tables.Employee;
 import PharmacyDataAccess.tables.Medicine;
 import PharmacyDataAccess.tables.Pharmacy;
 import PharmacyDataAccess.tables.Pharmacymedicine;
@@ -27,6 +28,11 @@ import javax.annotation.processing.Generated;
 )
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tables {
+
+    /**
+     * The table <code>dbo.Employee</code>.
+     */
+    public static final Employee EMPLOYEE = Employee.EMPLOYEE;
 
     /**
      * The table <code>dbo.Medicine</code>.

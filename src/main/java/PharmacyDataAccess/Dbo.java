@@ -4,6 +4,7 @@
 package PharmacyDataAccess;
 
 
+import PharmacyDataAccess.tables.Employee;
 import PharmacyDataAccess.tables.Medicine;
 import PharmacyDataAccess.tables.Pharmacy;
 import PharmacyDataAccess.tables.Pharmacymedicine;
@@ -36,12 +37,17 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Dbo extends SchemaImpl {
 
-    private static final long serialVersionUID = 515664452;
+    private static final long serialVersionUID = -1014149246;
 
     /**
      * The reference instance of <code>dbo</code>
      */
     public static final Dbo DBO = new Dbo();
+
+    /**
+     * The table <code>dbo.Employee</code>.
+     */
+    public final Employee EMPLOYEE = PharmacyDataAccess.tables.Employee.EMPLOYEE;
 
     /**
      * The table <code>dbo.Medicine</code>.
@@ -100,6 +106,7 @@ public class Dbo extends SchemaImpl {
 
     private final List<Table<?>> getTables0() {
         return Arrays.<Table<?>>asList(
+            Employee.EMPLOYEE,
             Medicine.MEDICINE,
             Pharmacy.PHARMACY,
             Pharmacymedicine.PHARMACYMEDICINE,
