@@ -13,6 +13,6 @@ import com.vaadin.flow.router.RouteAlias;
 @CssImport("styles/views/dashboard/dashboard-view.css")
 public class DashboardView extends Div {
 
-
+//split layout dashboard
 
 }

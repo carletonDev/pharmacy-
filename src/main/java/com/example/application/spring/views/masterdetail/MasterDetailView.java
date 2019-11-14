@@ -1,10 +1,9 @@
 package com.example.application.spring.views.masterdetail;
 
-import PharmacyDataAccess.tables.daos.EmployeeDao;
 import PharmacyDataAccess.tables.pojos.Employee;
+import com.example.application.spring.backend.CRUDService;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.example.application.spring.backend.BackendService;
 import com.vaadin.flow.component.AbstractField;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -16,7 +15,6 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.splitlayout.SplitLayout;
-import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.AfterNavigationEvent;
@@ -27,15 +25,15 @@ import com.vaadin.flow.router.Route;
 import com.example.application.spring.MainView;
 
 import java.util.List;
-
+//the route will be replaced with Neptune View annotation on project
+//all flow items were used in vaadin 8.5.1 just not imported from vaadin flow
 @Route(value = "masterdetail", layout = MainView.class)
 @PageTitle("MasterDetail")
 @CssImport("styles/views/masterdetail/master-detail-view.css")
 public class MasterDetailView extends Div implements AfterNavigationObserver {
 
     @Autowired
-    private BackendService service;
-
+    private CRUDService service;
     private Grid<Employee> employees;
 
     private TextField firstname = new TextField();
@@ -51,13 +49,10 @@ public class MasterDetailView extends Div implements AfterNavigationObserver {
     public MasterDetailView() {
         setId("master-detail-view");
         // Configure Grid
-        employees = new Grid<>();
+        employees = new Grid<>(Employee.class);
         employees.addThemeVariants(GridVariant.LUMO_NO_BORDER);
         employees.setHeightFull();
-        employees.addColumn(Employee::getFirstname).setHeader("First name");
-        employees.addColumn(Employee::getLastname).setHeader("Last name");
-        employees.addColumn(Employee::getEmail).setHeader("Email");
-
+        employees.removeColumnByKey("employeeid");
         //when a row is selected or deselected, populate form
         employees.asSingleSelect().addValueChangeListener(event -> populateForm(event.getValue()));
 
@@ -93,7 +88,7 @@ public class MasterDetailView extends Div implements AfterNavigationObserver {
     }
 
     public void CheckInsert(Employee employee) {
-        List<Employee> checkInsert = new EmployeeDao(service.GetConfiguration()).findAll();
+        List<Employee> checkInsert = service.EmployeeDAO().findAll();
         //check if user was added by looking at first and last name against the database list
         //java doesnt use two equals signs goes wonky you need .equals on lambdas
         if(checkInsert.stream().anyMatch(e-> e.getFirstname().equals(employee.getFirstname())
@@ -163,7 +158,7 @@ public class MasterDetailView extends Div implements AfterNavigationObserver {
 
         // Lazy init of the grid items, happens only when we are sure the view will be
         // shown to the user
-        employees.setItems(service.getEmployees());
+        employees.setItems(service.EmployeeDAO().findAll());
     }
 
     private void populateForm(Employee value) {

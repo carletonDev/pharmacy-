@@ -9,6 +9,7 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.binder.Binder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -75,9 +76,9 @@ Services for Forms to create a vertical layout and a Form in general
     }
 
 
-//    //creates the form binder for submission
-//    public Binder createBinder(Type types){
-//        return new Binder<>(types.class);
-//
-//    }
+    //creates the form binder for submission
+    public  <T> Binder createBinder(){
+        return new Binder<T>();
+
+    }
 }

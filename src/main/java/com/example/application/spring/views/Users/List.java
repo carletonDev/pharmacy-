@@ -6,16 +6,14 @@ import PharmacyDataAccess.tables.pojos.Users;
 import com.example.application.spring.MainView;
 import com.example.application.spring.backend.BackendService;
 import com.example.application.spring.backend.FormCreatorService;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.router.AfterNavigationEvent;
-import com.vaadin.flow.router.AfterNavigationObserver;
-import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.*;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -36,9 +34,6 @@ public class List extends VerticalLayout implements AfterNavigationObserver {
         VerticalLayout layout = new VerticalLayout();
         //create a new grid
         userList = new Grid<>(Users.class);
-        //add update and delete button
-        userList.addComponentColumn(this::buildDeleteButton);
-        userList.addComponentColumn(this::buildUpdateButton);
         //set size to full
         layout.setHeightFull();
         //remove role id and user id from table
@@ -50,8 +45,10 @@ public class List extends VerticalLayout implements AfterNavigationObserver {
 
     private Button buildUpdateButton(Users users) {
         Button button = formMaker.createButtonTheme("update");
+        button.setText("Update");
         button.addClickListener(e->{
             //link to update view with users object injected into the method
+
         });
         return button;
     }
@@ -59,6 +56,7 @@ public class List extends VerticalLayout implements AfterNavigationObserver {
     //add edit and delete button methods
     private Button buildDeleteButton(Users user){
         Button button = formMaker.createButtonTheme("delete");
+        button.setText("Delete");
         button.addClickListener(e->{
             //show notification if user clicks delete
             CreateDialog(user);
@@ -96,6 +94,8 @@ public class List extends VerticalLayout implements AfterNavigationObserver {
         // shown to the user
         UsersDao dao = new UsersDao(service.GetConfiguration());
         userList.setItems(dao.findAll());
+        userList.addComponentColumn(this::buildDeleteButton);
+        userList.addComponentColumn(this::buildUpdateButton);
         log.info(dao.findAll().toString());
     }
 

@@ -23,6 +23,8 @@ import com.example.application.spring.views.masterdetail.MasterDetailView;
 
 /**
  * The main view is a top-level placeholder for other views.
+ * //the route will be replaced with Neptune View annotation on project
+ * //all flow items were used in vaadin 8.5.1 just not imported from vaadin flow
  */
 @JsModule("./styles/shared-styles.js")
 @PWA(name = "Pharmacy", shortName = "Pharmacy")

@@ -12,6 +12,8 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 
 /**
  * The entry point of the Spring Boot application.
+ * //the route will be replaced with Neptune View annotation on project
+ * //all flow items were used in vaadin 8.5.1 just not imported from vaadin flow
  */
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer {
