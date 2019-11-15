@@ -5,6 +5,7 @@ import PharmacyDataAccess.tables.daos.UsersDao;
 import PharmacyDataAccess.tables.pojos.Users;
 import com.example.application.spring.MainView;
 import com.example.application.spring.backend.BackendService;
+import com.example.application.spring.backend.CRUDService;
 import com.example.application.spring.backend.FormCreatorService;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -27,6 +28,8 @@ public class List extends VerticalLayout implements AfterNavigationObserver {
    @Autowired
    private BackendService service;
    @Autowired
+   private CRUDService crud;
+   @Autowired
    private FormCreatorService formMaker;
     private Grid<Users> userList;
     public List(){
@@ -48,6 +51,7 @@ public class List extends VerticalLayout implements AfterNavigationObserver {
         button.setText("Update");
         button.addClickListener(e->{
             //link to update view with users object injected into the method
+
 
         });
         return button;
@@ -82,9 +86,7 @@ public class List extends VerticalLayout implements AfterNavigationObserver {
 
     public void DeleteUser(Users user) {
         //userID in jooq auto gen is depreceated
-        service.DSL().deleteFrom(PharmacyDataAccess.tables.Users.USERS)
-                .where(PharmacyDataAccess.tables.Users.USERS.FIRSTNAME.equal(user.getFirstname()),
-                        PharmacyDataAccess.tables.Users.USERS.LASTNAME.equal(user.getLastname()));
+        crud.UsersDAO().delete(user);
     }
 
     @Override

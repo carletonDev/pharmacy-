@@ -1,26 +1,13 @@
 package com.example.application.spring.backend;
 
-import PharmacyDataAccess.tables.daos.EmployeeDao;
-import PharmacyDataAccess.tables.pojos.Employee;
-import PharmacyDataAccess.tables.pojos.Users;
-import com.vaadin.flow.component.button.Button;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import org.jooq.*;
-import org.jooq.exception.*;
-import org.jooq.impl.DAOImpl;
+import org.jooq.Configuration;
+import org.jooq.DSLContext;
+import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
 import org.jooq.impl.DefaultConfiguration;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
-
-import java.io.OutputStream;
-import java.io.Writer;
-import java.sql.ResultSet;
-import java.util.*;
-import java.util.Comparator;
 
 @Service
 public class BackendService {

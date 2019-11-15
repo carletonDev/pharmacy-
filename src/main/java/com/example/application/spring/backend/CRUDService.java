@@ -1,12 +1,13 @@
 package com.example.application.spring.backend;
 
 import PharmacyDataAccess.tables.daos.*;
-import PharmacyDataAccess.tables.pojos.Employee;
-import com.example.application.spring.backend.BackendService;
+import PharmacyDataAccess.tables.pojos.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 /*
 Instantiates all DAO for cleaner code
  */
@@ -49,6 +50,10 @@ public class CRUDService {
                         employees.getTitle()).execute();
 
 
+    }
+
+    public List<Employee> GetUsersByTitle(String title){
+        return EmployeeDAO().findAll().stream().filter(e->e.getTitle().equals(title)).collect(Collectors.toList());
     }
 
 
